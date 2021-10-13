@@ -19,7 +19,7 @@ public class EyesUtilities {
     private Admin admin = new Admin();
 
     public static void main(String[] args) {
-        System.out.printf("ImageTester version %s \n", cur_ver);
+        System.out.printf("Eyes Utilities version %s \n", cur_ver);
         EyesUtilities main = new EyesUtilities();
         JCommander jc = new JCommander();
         jc.setCaseSensitiveOptions(false);

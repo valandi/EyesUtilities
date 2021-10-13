@@ -1,6 +1,5 @@
 package com.yanirta.utils;
 
-import com.sun.glass.ui.Size;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
@@ -14,6 +13,24 @@ import java.util.*;
 import java.util.List;
 
 public abstract class Utils {
+
+    private static final class Size {
+        public int width;
+        public int height;
+
+        public Size(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        public Size() {
+            this(0, 0);
+        }
+
+        @Override public String toString() {
+            return "Size(" + width + ", " + height + ")";
+        }
+    }
 
     public static void setClipboard(String copy) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
