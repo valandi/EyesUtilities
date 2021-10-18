@@ -12,6 +12,7 @@ public class ActualStepResult {
     private Boolean IgnoreExpectedOutputSettings;
     private Boolean IsMatching;
     private Boolean AreImagesMatching;
+    private HashMap AccessibilityStatus;
     private String OccurredAt;
     private Object UserInputs;
     private String Tag;
@@ -87,6 +88,14 @@ public class ActualStepResult {
 
     public void setAreImagesMatching(Boolean areImagesMatching) {
         AreImagesMatching = areImagesMatching;
+    }
+
+    public HashMap getAccessibilityStatus() {
+        return AccessibilityStatus;
+    }
+
+    public void setAccessibilityStatus(HashMap accessibilityStatus) {
+        AccessibilityStatus = accessibilityStatus;
     }
 
     public String getOccurredAt() {
