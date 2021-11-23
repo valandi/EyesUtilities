@@ -309,7 +309,7 @@ Unless filter applied, all baselines will be copied.
 If a baseline exists in target branch, it will be overwritten.
 
 Syntax:
-> java -jar EyesTilities.jar copyBaselines -k [apiKey] -t [targetBranch] 
+> java -jar EyesUtilities.jar copyBaselines -k [apiKey] -t [targetBranch] 
 
 + Required parameters:
     + `-k [apiKey]` - The apiKey must have Read and Write permissions
@@ -319,7 +319,17 @@ Syntax:
     + `-s [sourceBranch]` - Source branch name  default: 'default' branch
     + `-an [appName]` - Filter baselines by application name
     + `-dv` - Disable SSL certificate check and ignore possible errors. Note that using this flag is unsecured and dangerous.
-  
+
+### Delete baselines
+Delete baselines by id. 
+Only the baseline with the specified id will be deleted. 
+
++ Required parameters:
+    + `-k [apiKey]` - The apiKey must have Read and Write permissions
+    + `-bld [baselineId]` - Delete the baseline with the corresponding id
++ Optional parameters:
+    + `-as [url]` - Applitools alternative server, default: eyes.applitools.com
+
 ## Resources
 + [Applitools website](https://applitools.com)
 + [Web-Tester](https://github.com/yanirta/WebTester)

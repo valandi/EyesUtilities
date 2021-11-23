@@ -14,6 +14,7 @@ public class EyesUtilities {
     private Report report = new Report();
     private MergeBranch mergeBranch = new MergeBranch();
     private CopyBaseline copyBaselines = new CopyBaseline();
+    private DeleteBaselines deleteBaselines = new DeleteBaselines();
     private AnimatedDiffs animatedDiffs = new AnimatedDiffs();
     private Playback playback = new Playback();
     private Admin admin = new Admin();
@@ -50,23 +51,25 @@ public class EyesUtilities {
         jc.addCommand("report", report);
         jc.addCommand("merge", mergeBranch);
         jc.addCommand("copyBaselines", copyBaselines);
+        jc.addCommand("deleteBaselines", deleteBaselines);
         jc.addCommand("anidiffs", animatedDiffs);
         jc.addCommand("playback", playback);
         jc.addCommand("admin", admin);
         jc.parse(args);
 
-        String commandstr = jc.getParsedCommand();
-        if (commandstr == null) {
+        if (jc.getParsedCommand() == null) {
             jc.usage();
             return;
         }
 
         Command command = (Command) jc.getCommands().get(jc.getParsedCommand()).getObjects().get(0);
 
-        if (command instanceof CommandBase)
+        if (command instanceof CommandBase) {
             ((CommandBase) command).Execute();
-        else
+        }
+        else {
             command.run();
+        }
 
         //TODO Migrate test
         //TODO deep search in many batches

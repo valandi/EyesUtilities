@@ -1,12 +1,13 @@
 package com.yanirta.utils;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.yanirta.Commands.MergeBranch;
 import com.yanirta.obj.Contexts.BranchesAPIContext;
 import com.yanirta.obj.Serialized.BaselineInfo;
 import com.yanirta.obj.Serialized.BranchInfo;
 import com.yanirta.obj.Serialized.MergeBranchResponse;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import okhttp3.*;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -19,7 +20,11 @@ import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BaselinesManager {
     private BranchesAPIContext context;
@@ -120,6 +125,33 @@ public class BaselinesManager {
         entity.add("baselineIds", baselinesIds);
 
         return new StringEntity(entity.toString(), ContentType.APPLICATION_JSON);
+    }
+
+    public boolean deleteBaselines(final List<String> baselineIds) throws IOException, InterruptedException {
+        if (baselineIds.isEmpty()) {
+            System.out.println("Found 0 baselines to delete");
+            return false;
+        }
+        // OkHttp client will let us make non-standard calls, like passing a body to delete.
+        // This 100% needs to move to some sort of dependency injector.
+        final OkHttpClient client = new OkHttpClient().newBuilder().build();
+        final RequestBody body = RequestBody.create(
+                MediaType.parse("application/json"),
+                baselineIds.stream()
+                        .collect(Collectors.joining("", "{\"ids\":[\"", "\"]}\n"))
+        );
+
+        final Request request = new Request.Builder()
+                .url(context.getDeleteBaselinesUrl())
+                .method("DELETE", body)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        final Response response = client.newCall(request).execute();
+
+        int resultStatusCode = response.code();
+
+        return resultStatusCode == HttpStatus.SC_ACCEPTED || resultStatusCode == HttpStatus.SC_NO_CONTENT;
     }
 
     protected static void throwUnexpectedResponse(StatusLine statusLine) {

@@ -6,6 +6,7 @@ public class BranchesAPIContext extends Context {
     private static final String BRANCHES_DELETE_URL_TMPL = "https://%s/api/baselines/branches/%s?apiKey=%s";
     private static final String BASELINES_GET_URL_TMPL = "https://%s/api/baselines/query?apiKey=%s";
     private static final String BASELINES_COPY_URL_TMPL = "https://%s/api/baselines/copy?apiKey=%s";
+    private static final String BASELINES_DELETE_URL_TMPL = "https://%s/api/baselines?apiKey=%s";
 
     private static BranchesAPIContext context_;
 
@@ -18,7 +19,7 @@ public class BranchesAPIContext extends Context {
 
     public static synchronized BranchesAPIContext Init(String serverUrl, String mergeKey) {
         if (context_ != null)
-            throw new RuntimeException("Invaild call of Context.init(...)");
+            throw new RuntimeException("Invalid call of Context.init(...)");
         context_ = new BranchesAPIContext(serverUrl, mergeKey);
         return context_;
     }
@@ -42,6 +43,8 @@ public class BranchesAPIContext extends Context {
     public String getBaselinesUrl() {
         return String.format(BASELINES_GET_URL_TMPL, serverUrl_, getKey());
     }
+
+    public String getDeleteBaselinesUrl() { return String.format(BASELINES_DELETE_URL_TMPL, serverUrl_, getKey()); }
 
     public String copyBaselinesUrl() {
         return String.format(BASELINES_COPY_URL_TMPL, serverUrl_, getKey());
